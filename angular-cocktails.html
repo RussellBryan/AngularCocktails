@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="cocktailApp">
+	<head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+		<script type="text/javascript" src="ingredients.js"></script>
+		<script type="text/javascript" src="cocktails.js"></script>
+		<title>AngularCocktails</title>
+	</head>
+	<div ng-controller="FormController as formCtrl">
+	<form>
+		Number of Spirits
+		<select ng-model="formCtrl.numSpirits" ng-options="i for i in [1, 2, 3]">
+		</select>
+		<table id='spirits'>
+			<th>Spirits</th>
+			<tr ng-repeat='spirit in range(formCtrl.numSpirits) track by $index'>
+				<td>ABV</td>
+				<td><input type='number' ng-model='formCtrl.spiritABV[$index]'></input></td>
+				<td>Amount</td>
+				<td><input type='number' ng-model='formCtrl.spiritAmount[$index]'></input></td>
+			</tr>
+		</table>
+		Number of Ingredients
+		<select ng-model="formCtrl.numIngredients" ng-options="i for i in [1, 2, 3, 4, 5]">
+		</select>
+		<table>
+			<th>Ingredients</th>
+			<tr ng-repeat='ingredient in range(formCtrl.numIngredients) track by $index'>
+				<td>Type</td>
+				<td>
+					<select ng-model="formCtrl.type[$index]" ng-options="t for (t, ings) in formCtrl.inds">
+					</select>
+				</td>
+				<td>Ingredient</td>
+				<td>
+					<select ng-model="formCtrl.ingredient[$index]" ng-options='i for (i, p) in formCtrl.type[$index]'>
+					</select>
+				</td>
+				<td>Amount</td>
+				<td><input type='number' ng-model="formCtrl.ingredientAmount[$index]"></input></td>
+			</tr>
+		</table>
+		<div>
+		<input name="diltion" type='radio' ng-model="formCtrl.dilution" value='stirred'>Stirred
+		<input name="dilution" type='radio' ng-model="formCtrl.dilution" value='shaken'>Shaken
+		<input name="dilution" type='radio' ng-model-"formCtrl.dilution" value='none'>None
+		</div>
+	</form>
+	<table>
+		<th>Cocktail</th>
+		<tr>
+			<td>ABV</td>
+			<td>Sugar</td>
+			<td>Acid</td>
+			<td>Mix Volume</td>
+			<td>Final Volume</td>
+		</tr>
+		<tr>
+			<td>{{calculate(formCtrl).ABV | number}}</td>
+			<td>{{calculate(formCtrl).Sugar | number}}</td>
+			<td>{{calculate(formCtrl).Acid | number}}</td>
+			<td>{{calculate(formCtrl).mixVolume | number}}</td>
+			<td>{{calculate(formCtrl).finalVolume | number}}</td>
+		</tr>
+	</table>
+  </div>
+</html>
